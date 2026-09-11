@@ -1,0 +1,362 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ayush Maurya | AI Voice Agent</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --purple: #7c3aed;
+            --blue: #06b6d4;
+            --pink: #ec4899;
+            --dark: #070712;
+            --text: #ffffff;
+            --muted: #a1a1aa;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            color: var(--text);
+            background: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            filter: blur(110px);
+            opacity: .3;
+            animation: float 12s infinite alternate ease-in-out;
+        }
+
+        .blob:nth-child(1) {
+            background: var(--purple);
+            top: -180px;
+            left: -120px;
+        }
+
+        .blob:nth-child(2) {
+            background: var(--blue);
+            right: -150px;
+            top: 25%;
+            animation-delay: 3s;
+        }
+
+        .blob:nth-child(3) {
+            background: var(--pink);
+            bottom: -200px;
+            left: 35%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+
+            to {
+                transform: translate(80px, 60px) scale(1.2);
+            }
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 7%;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            background: rgba(0,0,0,.15);
+            backdrop-filter: blur(15px);
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: 800;
+            background: linear-gradient(
+                90deg,
+                var(--purple),
+                var(--blue),
+                var(--pink)
+            );
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 4s linear infinite;
+        }
+
+        @keyframes gradient {
+            to {
+                background-position: 200%;
+            }
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #d4d4d8;
+            font-size: 14px;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 14px #22c55e;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: calc(100vh - 75px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 9px 17px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 30px;
+            background: rgba(255,255,255,.06);
+            color: #d4d4d8;
+            backdrop-filter: blur(12px);
+        }
+
+        h1 {
+            font-size: clamp(45px, 8vw, 88px);
+            line-height: 1;
+            letter-spacing: -4px;
+            margin-bottom: 25px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(
+                90deg,
+                var(--purple),
+                var(--blue),
+                var(--pink),
+                var(--purple)
+            );
+            background-size: 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 5s linear infinite;
+        }
+
+        .description {
+            max-width: 650px;
+            margin: auto;
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        /* Agent card */
+        .agent-card {
+            width: min(620px, 92vw);
+            margin: 45px auto 0;
+            padding: 35px 25px;
+            border-radius: 25px;
+            background: rgba(255,255,255,.07);
+            border: 1px solid rgba(255,255,255,.12);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 25px 80px rgba(0,0,0,.35);
+        }
+
+        .orb {
+            width: 105px;
+            height: 105px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                var(--purple),
+                var(--blue),
+                var(--pink)
+            );
+            box-shadow:
+                0 0 35px rgba(124,58,237,.55),
+                0 0 80px rgba(6,182,212,.2);
+            animation: pulse 2.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        .agent-card h2 {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .agent-card p {
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        .instruction {
+            font-size: 14px;
+            margin-top: 15px;
+            color: #71717a;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #71717a;
+            font-size: 13px;
+        }
+
+        /* Voice widget position */
+        elevenlabs-convai {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 1000;
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            nav {
+                padding: 18px 5%;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .status {
+                font-size: 12px;
+            }
+
+            h1 {
+                letter-spacing: -2px;
+            }
+
+            .description {
+                font-size: 16px;
+            }
+
+            .agent-card {
+                padding: 28px 18px;
+            }
+
+            .orb {
+                width: 85px;
+                height: 85px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
+
+    <nav>
+        <div class="logo">AYUSH MAURYA</div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            AI Agent Online
+        </div>
+    </nav>
+
+    <main class="hero">
+        <section class="content">
+
+            <div class="badge">
+                ✦ AI Voice Assistant
+            </div>
+
+            <h1>
+                Talk to<br>
+                <span class="gradient-text">My AI Agent</span>
+            </h1>
+
+            <p class="description">
+                Start a natural voice conversation with my AI-powered
+                assistant. Ask questions, get information, and interact
+                in real time.
+            </p>
+
+            <div class="agent-card">
+
+                <div class="orb"></div>
+
+                <h2>AI Voice Assistant</h2>
+
+                <p>
+                    Click the voice button in the bottom-right corner
+                    to start your conversation.
+                </p>
+
+                <div class="instruction">
+                    🎙 Speak naturally — the AI will respond to you.
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        © 2026 Ayush Maurya · AI Voice Agent
+    </footer>
+
+    <!-- ElevenLabs Voice Agent -->
+    <elevenlabs-convai
+        agent-id="agent_5501m2617mzdep8t0kchmvs49s7f">
+    </elevenlabs-convai>
+
+    <script
+        src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+        async
+        type="text/javascript">
+    </script>
+
+</body>
+</html>
+```
